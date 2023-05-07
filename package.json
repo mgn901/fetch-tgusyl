@@ -1,0 +1,19 @@
+{
+  "name": "@mgn901/fetch-tgusyl",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node --require=esbuild-register ./scripts/build.esbuild.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "mgn901 <mgn901+dev@gmail.com> (https://mgn901.pages.dev)",
+  "license": "MIT",
+  "username": "mgn901",
+  "devDependencies": {
+    "esbuild": "^0.17.18",
+    "esbuild-register": "^3.4.2",
+    "typescript": "^5.0.4"
+  }
+}
