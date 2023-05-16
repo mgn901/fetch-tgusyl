@@ -1,33 +1,34 @@
 import { ISection } from '../types/ISection';
 import { ISectionRepository, ISectionRepositoryOptions } from '../types/ISectionRepository';
-import { convertHtmlToDocument } from '../utils/convertHtmlToDocument';
+import convertHtmlToDocument from '../utils/convertHtmlToDocument';
 
-export class SectionRepository extends ISectionRepository {
-	private readonly domParser: DOMParser;
-	private readonly sectionList: ISection[];
+export default class SectionRepository extends ISectionRepository {
+  private readonly domParser: DOMParser;
 
-	public constructor(options: ISectionRepositoryOptions) {
-		super();
-		this.domParser = options.domParser;
-		const document = convertHtmlToDocument(options.indexHTML, this.domParser);
-		const anchors = document.querySelectorAll('ui-tabs-anchor');
-		const sectionList: ISection[] = [];
+  private readonly sectionList: ISection[];
 
-		anchors.forEach((anchor) => {
-			if (!(anchor instanceof HTMLAnchorElement) || !(anchor.href.startsWith('tab_kamoku.php'))) {
-				return;
-			}
-			sectionList.push({
-				tabName: anchor.textContent || '',
-				tabURL: `https://portal.u-gakugei.ac.jp/syllabus/${anchor.href}`,
-			});
-		});
+  public constructor(options: ISectionRepositoryOptions) {
+    super();
+    this.domParser = options.domParser;
+    const document = convertHtmlToDocument(options.indexHTML, this.domParser);
+    const anchors = document.querySelectorAll('ui-tabs-anchor');
+    const sectionList: ISection[] = [];
 
-		this.sectionList = sectionList;
-	}
+    anchors.forEach((anchor) => {
+      if (!(anchor instanceof HTMLAnchorElement) || !(anchor.href.startsWith('tab_kamoku.php'))) {
+        return;
+      }
+      sectionList.push({
+        tabName: anchor.textContent || '',
+        tabURL: `https://portal.u-gakugei.ac.jp/syllabus/${anchor.href}`,
+      });
+    });
 
-	public findAll(): ISection[] {
-		const sectionList = [...this.sectionList];
-		return sectionList;
-	}
+    this.sectionList = sectionList;
+  }
+
+  public findAll(): ISection[] {
+    const sectionList = [...this.sectionList];
+    return sectionList;
+  }
 }

@@ -1,4 +1,4 @@
 export interface ISection {
-	tabName: string;
-	tabURL: string;
+  tabName: string;
+  tabURL: string;
 }
