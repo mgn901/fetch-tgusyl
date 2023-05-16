@@ -5,14 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production node --require=esbuild-register ./scripts/build.esbuild.ts",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc -p tsconfig.json --noEmit",
     "test": "jest",
     "lint": "eslint src scripts",
-    "prepare": "husky install",
-    "precommit": "npm run type-check && npm run test && npm run lint"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": ["tsc --noEmit", "jest", "eslint --fix"]
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "mgn901 <mgn901+dev@gmail.com> (https://mgn901.pages.dev)",
