@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node --require=esbuild-register ./scripts/build.esbuild.ts",
+    "build": "cross-env NODE_ENV=production node --require=esbuild-register ./scripts/build.esbuild.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,7 +12,11 @@
   "license": "MIT",
   "username": "mgn901",
   "devDependencies": {
+    "@types/esbuild-copy-static-files": "^0.1.0",
+    "@types/node": "^20.1.5",
+    "cross-env": "^7.0.3",
     "esbuild": "^0.17.18",
+    "esbuild-copy-static-files": "^0.1.0",
     "esbuild-register": "^3.4.2",
     "typescript": "^5.0.4"
   }
