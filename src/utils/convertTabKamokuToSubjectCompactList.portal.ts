@@ -20,7 +20,7 @@ export const convertTabKamokuToSubjectCompactList = (params: IConvertTabKamokuTo
 	tableRows.forEach((tableRow) => {
 		const children = [...tableRow.children];
 		const trimmedChildren = children.map(element => getTrimmedText(element));
-		const id = tableRow.dataset.href ?? `${trimmedChildren[0]}-${trimmedChildren[3]}`;
+		const id = tableRow.dataset.href ?? `${trimmedChildren[0]}${trimmedChildren[3]}`;
 		const subjectCompact = subjectCompactList.find(subject => subject.id === id);
 
 		if (!subjectCompact) {

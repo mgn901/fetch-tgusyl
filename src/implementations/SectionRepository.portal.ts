@@ -1,16 +1,13 @@
-import { convertHtmlToDocument } from '../utils/convertHtmlToDocument';
 import { ISection } from '../types/ISection';
+import { ISectionRepository, ISectionRepositoryOptions } from '../types/ISectionRepository';
+import { convertHtmlToDocument } from '../utils/convertHtmlToDocument';
 
-interface ISectionRepositoryOptions {
-	indexHTML: string;
-	domParser: DOMParser;
-}
-
-export class SectionRepository {
+export class SectionRepository extends ISectionRepository {
 	private readonly domParser: DOMParser;
 	private readonly sectionList: ISection[];
 
 	public constructor(options: ISectionRepositoryOptions) {
+		super();
 		this.domParser = options.domParser;
 		const document = convertHtmlToDocument(options.indexHTML, this.domParser);
 		const anchors = document.querySelectorAll('ui-tabs-anchor');

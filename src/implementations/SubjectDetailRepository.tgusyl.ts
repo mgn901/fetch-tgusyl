@@ -1,15 +1,13 @@
 import { ISubjectDetail } from '../types/ISubjectDetail';
-import { convertReferenceDirectToSubjectDetail } from '../utils/convertReferenceDirectToSubjectDetail';
+import { ISubjectDetailRepository, ISubjectDetailRepositoryOptions } from '../types/ISubjectDetailRepository';
+import { convertReferenceDirectToSubjectDetail } from '../utils/convertReferenceDirectToSubjectDetail.tgusyl';
 
-interface ISubjectDetailRepositoryOptions {
-	domParser: DOMParser;
-}
-
-export class SubjectDetailRepository {
+export class SubjectDetailRepository extends ISubjectDetailRepository {
 	private subjects: ISubjectDetail[];
 	private readonly domParser: DOMParser;
 
 	public constructor(options: ISubjectDetailRepositoryOptions) {
+		super();
 		this.subjects = [];
 		this.domParser = options.domParser;
 	}
@@ -38,5 +36,4 @@ export class SubjectDetailRepository {
 		});
 		return subject;
 	}
-
 }
