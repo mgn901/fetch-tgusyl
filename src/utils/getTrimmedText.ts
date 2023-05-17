@@ -1,3 +1,3 @@
-export const getTrimmedText = (node: Node): string | undefined => {
-	return node.textContent?.trim();
-}
+const getTrimmedText = (node: Node): string | undefined => node.textContent?.trim();
+
+export default getTrimmedText;
