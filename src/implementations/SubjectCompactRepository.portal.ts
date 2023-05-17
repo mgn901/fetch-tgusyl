@@ -1,17 +1,14 @@
 import { ISubjectCompact } from '../types/ISubjectCompact';
-import { convertTabKamokuToSubjectCompactList } from '../utils/convertTabKamokuToSubjectCompactList';
+import { ISubjectCompactRepository, ISubjectCompactRepositoryOptions } from '../types/ISubjectCompactRepository';
+import { convertTabKamokuToSubjectCompactList } from '../utils/convertTabKamokuToSubjectCompactList.portal';
 
-interface ISubjectCompactRepositoryOptions {
-	tabHtmlList: string[];
-	domParser: DOMParser;
-}
-
-export class SubjectCompactRepository {
+export class SubjectCompactRepository extends ISubjectCompactRepository {
 	private readonly domParser: DOMParser;
 	private subjectCompactList: ISubjectCompact[];
 	private readonly updatedAt: Date;
 
 	public constructor(options: ISubjectCompactRepositoryOptions) {
+		super();
 		this.domParser = options.domParser;
 		this.subjectCompactList = [];
 		this.updatedAt = new Date();
@@ -33,5 +30,4 @@ export class SubjectCompactRepository {
 		const subjectCompactList = [...this.subjectCompactList];
 		return subjectCompactList;
 	}
-
 }
