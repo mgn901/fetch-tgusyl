@@ -2,12 +2,13 @@ import { ISubjectCompact } from '../types/ISubjectCompact';
 import convertHtmlToDocument from './convertHtmlToDocument';
 import getDedupedArray from './getDedupedArray';
 import getTrimmedText from './getTrimmedText';
+import toAsciiString from './toAsciiString';
 
 interface IConvertTabKamokuToSubjectCompactListParams {
   updatedAt: Date;
   html: string;
   domParser: DOMParser;
-  subjectCompactList: ISubjectCompact[] | undefined;
+  subjectCompactList?: ISubjectCompact[];
 }
 
 const convertTabKamokuToSubjectCompactList = (
@@ -17,12 +18,14 @@ const convertTabKamokuToSubjectCompactList = (
   const subjectCompactList = [...(params.subjectCompactList ?? [])];
 
   const document = convertHtmlToDocument(html, domParser);
-  const tableRows = document.querySelectorAll<HTMLTableRowElement>('html body div.tblScroll table.tbl.tblBody tbody tr');
+  const tableRows = document.querySelectorAll<HTMLTableRowElement>('table.tbl:nth-child(1) > tbody:nth-child(2) > tr');
 
   tableRows.forEach((tableRow) => {
     const children = [...tableRow.children];
-    const trimmedChildren = children.map((element) => getTrimmedText(element));
-    const id = tableRow.dataset.href ?? `${trimmedChildren[0]}${trimmedChildren[3]}`;
+    const trimmedChildren = children.map((element) => toAsciiString(getTrimmedText(element) ?? ''));
+    const altURL = `https://tgusyl.u-gakugei.ac.jp/ext_syllabus/referenceDirect.do?nologin=on&subjectID=${trimmedChildren[0]}${trimmedChildren[3]}&formatCD=1`;
+    const idFromURL = new URL(tableRow.dataset.href ?? altURL).searchParams.get('subjectID') ?? `${trimmedChildren[0]}${trimmedChildren[3]}`;
+    const id = idFromURL.length !== 0 ? idFromURL : `${trimmedChildren[0]}${trimmedChildren[3]}`;
     const subject = subjectCompactList.find((subjectCompact) => subjectCompact.id === id);
 
     if (!subject) {
