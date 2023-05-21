@@ -7,7 +7,7 @@
     "build": "cross-env NODE_ENV=production node --require=esbuild-register ./scripts/build.esbuild.ts",
     "type-check": "tsc -p tsconfig.json --noEmit",
     "test": "jest",
-    "lint": "eslint src scripts",
+    "lint": "eslint --cache .",
     "prepare": "husky install"
   },
   "keywords": [],
@@ -18,12 +18,17 @@
     "@jest/globals": "^29.5.0",
     "@types/esbuild-copy-static-files": "^0.1.0",
     "@types/node": "^20.1.5",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
+    "@types/webextension-polyfill": "^0.10.0",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "cross-env": "^7.0.3",
     "esbuild": "^0.17.18",
     "esbuild-copy-static-files": "^0.1.0",
+    "esbuild-jest": "^0.5.0",
     "esbuild-register": "^3.4.2",
     "eslint": "^8.0.1",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-plugin-import": "^2.25.2",
@@ -35,5 +40,10 @@
     "lint-staged": "^13.2.2",
     "ts-jest": "^29.1.0",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "webextension-polyfill": "^0.10.0"
   }
 }
