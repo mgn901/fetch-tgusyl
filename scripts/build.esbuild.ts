@@ -12,7 +12,7 @@ const extensionBuildOptions: BuildOptions = {
   },
   entryPoints: [
     './src/webextension/background.ts',
-    './src/webextension/action.ts',
+    './src/webextension/page.tsx',
   ],
   minify: isDev,
   sourcemap: isDev,
