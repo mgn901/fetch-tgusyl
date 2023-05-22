@@ -6,6 +6,6 @@ export interface ISubjectCompactRepositoryOptions {
 }
 
 export abstract class ISubjectCompactRepository {
-  public abstract addSource(...tabHtmlList: string[]): void;
+  public abstract addSource(...tabHtmlList: string[]): Promise<void>;
   public abstract findAll(): ISubjectCompact[];
 }

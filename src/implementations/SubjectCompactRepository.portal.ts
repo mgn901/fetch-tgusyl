@@ -17,19 +17,19 @@ export default class SubjectCompactRepository extends ISubjectCompactRepository 
     this.addSource(...options.tabHtmlList);
   }
 
-  public addSource(...tabHtmlList: string[]) {
-    tabHtmlList.forEach((tabHtml) => {
-      this.subjectCompactList = convertTabKamokuToSubjectCompactList({
+  public addSource = async (...tabHtmlList: string[]): Promise<void> => {
+    tabHtmlList.forEach(async (tabHtml) => {
+      this.subjectCompactList = await convertTabKamokuToSubjectCompactList({
         updatedAt: this.updatedAt,
         html: tabHtml,
         domParser: this.domParser,
         subjectCompactList: this.subjectCompactList,
       });
     });
-  }
+  };
 
-  public findAll(): ISubjectCompact[] {
+  public findAll = (): ISubjectCompact[] => {
     const subjectCompactList = [...this.subjectCompactList];
     return subjectCompactList;
-  }
+  };
 }

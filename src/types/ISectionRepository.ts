@@ -1,10 +1,10 @@
 import { ISection } from './ISection';
 
 export interface ISectionRepositoryOptions {
-  indexHTML: string;
   domParser: DOMParser;
 }
 
 export abstract class ISectionRepository {
+  public abstract addSource(indexHTML: string): void;
   public abstract findAll(): ISection[];
 }

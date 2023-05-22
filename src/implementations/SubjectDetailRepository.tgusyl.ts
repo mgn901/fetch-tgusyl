@@ -13,7 +13,7 @@ export default class SubjectDetailRepository extends ISubjectDetailRepository {
     this.domParser = options.domParser;
   }
 
-  public async findByID(id: ISubjectDetail['id'], revalidate = false): Promise<ISubjectDetail | undefined> {
+  public findByID = async (id: ISubjectDetail['id'], revalidate = false): Promise<ISubjectDetail | undefined> => {
     const subjectInCache = this.subjects.find((subject) => subject.id === id);
     if (revalidate && subjectInCache) {
       return subjectInCache;
@@ -36,5 +36,5 @@ export default class SubjectDetailRepository extends ISubjectDetailRepository {
       domParser: this.domParser,
     });
     return subject;
-  }
+  };
 }
