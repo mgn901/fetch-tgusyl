@@ -6,6 +6,7 @@ module.exports = {
     node: true,
   },
   extends: ['airbnb', 'airbnb-typescript'],
+  plugins: ['@tanstack/query'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',

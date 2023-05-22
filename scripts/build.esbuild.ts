@@ -12,9 +12,10 @@ const extensionBuildOptions: BuildOptions = {
   },
   entryPoints: [
     './src/webextension/background.ts',
+    './src/webextension/offscreen.ts',
     './src/webextension/page.tsx',
   ],
-  minify: isDev,
+  minify: !isDev,
   sourcemap: isDev,
   outdir: `./${NODE_ENV}/webextension`,
   target: ['chrome110', 'firefox110', 'edge110', 'safari14'],
