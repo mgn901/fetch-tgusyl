@@ -20,7 +20,7 @@ const serverify = <M extends TChannelFunctionMap, C extends Extract<keyof M, str
 ): IServerifyReturns => {
   const terminal = new ServerTerminal<IRequest, IReply>({
     channel: options.channel,
-    processor: (message) => ({ value: options.processor(...message.value) }),
+    processor: async (message) => ({ value: await options.processor(...message.value) }),
     messageListenerAdder: options.requestListenerAdder,
     sendMessageFunction: options.sendReplyFunction,
   });

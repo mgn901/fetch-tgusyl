@@ -15,7 +15,7 @@ export default class ServerTerminal<
 > {
   private readonly channel: string;
 
-  private readonly processor: (message: TWithHeader<IRequest>) => TReply;
+  private readonly processor: (message: TWithHeader<IRequest>) => Promise<TReply>;
 
   private readonly sendMessageFunction: (message: TWithHeader<TReply>) => void;
 
@@ -31,12 +31,12 @@ export default class ServerTerminal<
     options.messageListenerAdder(this.onMessage);
   }
 
-  private onMessage = (request: TWithHeader<IRequest>): void => {
+  private onMessage = async (request: TWithHeader<IRequest>): Promise<void> => {
     if (typeof request?.id !== 'number' || request?.type !== 'asyncify-events' || request?.channel !== this.channel) {
       return;
     }
     this.sendMessageFunction({
-      ...this.processor(request),
+      ...(await this.processor(request)),
       id: request.id,
       type: 'asyncify-events',
       channel: this.channel,
