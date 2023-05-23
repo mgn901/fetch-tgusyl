@@ -1,69 +1,70 @@
-import { TWithHeader } from './TWithHeader';
+import ClientTerminalTerminated from './ClientTerminalTerminated';
+import { IMessage } from './IMessage';
+import ReceiveTerminal, { IReceiveTerminalOptions } from './ReceiveTerminal';
+import SendTerminal, { ISendTerminalOptions } from './SendTerminal';
 import generateID from './generateID';
 
-interface ITask<TRequest extends Record<any, any>, TReply extends Record<any, any>> {
-  request: TWithHeader<TRequest>;
-  resolve: (value: TReply | PromiseLike<TReply>) => void;
+interface TTask<T, U> {
+  body: T;
+  resolve: (value: U | PromiseLike<U>) => void;
+  reject: (reason?: any) => void;
 }
 
-interface IClientTerminalOptions<
-  TRequest extends Record<any, any>, TReply extends Record<any, any>,
-> {
-  channel: ClientTerminal<TRequest, TReply>['channel'];
-  sendMessageFunction: ClientTerminal<TRequest, TReply>['sendMessageFunction'];
-  messageListenerAdder: (onMessage: (message: TWithHeader<TReply>) => void) => void;
-  messageListenerRemover?: ClientTerminal<TRequest, TReply>['messageListenerRemover'];
-}
+export type IClientTerminalOptions<
+  TParams extends any[], TReturns extends any,
+> = Pick<
+ISendTerminalOptions<TParams> & IReceiveTerminalOptions<[TReturns]>,
+'channel' | 'messageListenerAdder' | 'messageListenerRemover' | 'sendMessageFunction'
+>;
 
-export default class ClientTerminal<
-  TRequest extends Record<any, any>, TReply extends Record<any, any>,
-> {
-  private tasks: ITask<TRequest, TReply>[];
-
+export default class ClientTerminal<TParams extends any[], TReturns extends any> {
   private readonly channel: string;
 
-  private readonly sendMessageFunction: (message: TWithHeader<TRequest>) => void;
+  private readonly sendTerminal: SendTerminal<TParams>;
 
-  private readonly messageListenerRemover?: (
-    onMessaege: (message: TWithHeader<TRequest>) => void
-  ) => void;
+  private readonly receiveTerminal: ReceiveTerminal<[TReturns]>;
 
-  public constructor(options: IClientTerminalOptions<TRequest, TReply>) {
+  private readonly tasks: TTask<IMessage<TParams>, TReturns>[];
+
+  public constructor(options: IClientTerminalOptions<TParams, TReturns>) {
     this.channel = options.channel;
+    this.sendTerminal = new SendTerminal<TParams>(options);
+    this.receiveTerminal = new ReceiveTerminal<[TReturns]>({
+      channel: options.channel,
+      messageListenerAdder: options.messageListenerAdder,
+      messageListenerRemover: options.messageListenerRemover,
+      messageProcessor: this.messageProcessor,
+    });
     this.tasks = [];
-    this.sendMessageFunction = options.sendMessageFunction;
-    this.messageListenerRemover = options.messageListenerRemover;
-    options.messageListenerAdder(this.onMessage);
   }
 
-  private onMessage = (reply: TWithHeader<TReply>): void => {
-    if (typeof reply?.id !== 'number' || reply?.type !== 'asyncify-events' || reply?.channel !== this.channel) {
-      return;
-    }
-    const predicate = (task: ITask<TRequest, TReply>) => task.request.id === reply.id;
+  public request = (...params: TParams) => new Promise<TReturns>((resolve, reject) => {
+    const message: IMessage<TParams> = {
+      id: generateID(),
+      channel: this.channel,
+      type: 'asyncify-events',
+      params,
+    };
+    const task = { body: message, resolve, reject };
+    this.tasks.push(task);
+    this.sendTerminal.sendMessage(message);
+  });
+
+  private messageProcessor = (message: IMessage<[TReturns]>): void => {
+    const predicate = (task: TTask<IMessage<TParams>, TReturns>) => task.body.id === message.id;
     const task = this.tasks.find(predicate);
     const taskIdx = this.tasks.findIndex(predicate);
-    task?.resolve(reply);
+    task?.resolve(...message.params);
     if (taskIdx !== -1) {
       this.tasks.splice(taskIdx, 1);
     }
   };
 
-  public sendMessage = (request: TRequest) => new Promise<TReply>((resolve) => {
-    const requestWithHeader: TWithHeader<TRequest> = {
-      ...request,
-      id: generateID(),
-      type: 'asyncify-events',
-      channel: this.channel,
-    };
-    this.tasks.push({ request: requestWithHeader, resolve });
-    this.sendMessageFunction(requestWithHeader);
-  });
-
   public terminate = (): void => {
-    this.tasks = [];
-    if (this.messageListenerRemover) {
-      this.messageListenerRemover(this.onMessage);
-    }
+    this.receiveTerminal.terminate();
+    this.tasks.forEach((task) => {
+      const exception = new ClientTerminalTerminated();
+      task.reject(exception);
+    });
   };
 }

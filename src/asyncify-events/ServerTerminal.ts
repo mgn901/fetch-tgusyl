@@ -1,51 +1,49 @@
-import { TWithHeader } from './TWithHeader';
+import { IMessage } from './IMessage';
+import ReceiveTerminal, { IReceiveTerminalOptions } from './ReceiveTerminal';
+import SendTerminal, { ISendTerminalOptions } from './SendTerminal';
 
-interface IServerTerminalOptions<
-  TRequest extends Record<any, any>, TReply extends Record<any, any>,
-> {
-  channel: ServerTerminal<TRequest, TReply>['channel'];
-  processor: ServerTerminal<TRequest, TReply>['processor'];
-  sendMessageFunction: ServerTerminal<TRequest, TReply>['sendMessageFunction'];
-  messageListenerAdder: (onMessage: (message: TWithHeader<TRequest>) => void) => void;
-  messageListenerRemover?: ServerTerminal<TRequest, TReply>['messageListenerRemover'];
-}
+export type IServerTerminalOptions<
+  TParams extends any[], TReturns extends any,
+> = Pick<
+ISendTerminalOptions<[TReturns]> & IReceiveTerminalOptions<TParams, TReturns>,
+'channel' | 'messageListenerAdder' | 'messageListenerRemover' | 'paramsProcessor' | 'sendMessageFunction'
+>;
 
-export default class ServerTerminal<
-  IRequest extends Record<any, any>, TReply extends Record<any, any>,
-> {
-  private readonly channel: string;
+export default class ServerTerminal<TParams extends any[], TReturns extends any> {
+  private readonly sendTerminal: SendTerminal<[TReturns]>;
 
-  private readonly processor: (message: TWithHeader<IRequest>) => Promise<TReply>;
+  private readonly receiveTerminal: ReceiveTerminal<TParams>;
 
-  private readonly sendMessageFunction: (message: TWithHeader<TReply>) => void;
+  private readonly paramsProcessor?: (...params: TParams) => TReturns;
 
-  private readonly messageListenerRemover?: (
-    onMessaege: (message: TWithHeader<IRequest>) => void,
-  ) => void;
-
-  public constructor(options: IServerTerminalOptions<IRequest, TReply>) {
-    this.channel = options.channel;
-    this.processor = options.processor;
-    this.sendMessageFunction = options.sendMessageFunction;
-    this.messageListenerRemover = options.messageListenerRemover;
-    options.messageListenerAdder(this.onMessage);
+  public constructor(options: IServerTerminalOptions<TParams, TReturns>) {
+    this.sendTerminal = new SendTerminal({
+      channel: options.channel,
+      sendMessageFunction: options.sendMessageFunction,
+    });
+    this.receiveTerminal = new ReceiveTerminal<TParams>({
+      channel: options.channel,
+      messageListenerAdder: options.messageListenerAdder,
+      messageListenerRemover: options.messageListenerRemover,
+      messageProcessor: this.messageProcessor,
+    });
+    this.paramsProcessor = options.paramsProcessor;
   }
 
-  private onMessage = async (request: TWithHeader<IRequest>): Promise<void> => {
-    if (typeof request?.id !== 'number' || request?.type !== 'asyncify-events' || request?.channel !== this.channel) {
+  private messageProcessor = async (message: IMessage<TParams>): Promise<void> => {
+    if (!this.paramsProcessor) {
       return;
     }
-    this.sendMessageFunction({
-      ...(await this.processor(request)),
-      id: request.id,
-      type: 'asyncify-events',
-      channel: this.channel,
+    const returns = await this.paramsProcessor(...message.params);
+    this.sendTerminal.sendMessage({
+      id: message.id,
+      channel: message.channel,
+      type: message.type,
+      params: [returns],
     });
   };
 
-  public terminate = (): void => {
-    if (this.messageListenerRemover) {
-      this.messageListenerRemover(this.onMessage);
-    }
+  public terminate = () => {
+    this.receiveTerminal.terminate();
   };
 }
