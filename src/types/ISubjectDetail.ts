@@ -2,6 +2,7 @@ import { IProperty } from './IProperty';
 
 export interface ISubjectDetail {
   readonly id: string;
+  type: 'detail';
   code?: string;
   name: string;
   teachers: string[];
