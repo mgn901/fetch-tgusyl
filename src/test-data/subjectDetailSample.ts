@@ -311,6 +311,7 @@ export const tgusylReferenceDirectSampleHTML = `<html lang="ja-JP">
 
 export const subjectDetailSample: ISubjectDetail = {
   id: 'example',
+  type: 'detail',
   code: '70000000',
   name: 'example科目名',
   teachers: ['example教員0', 'example教員1'],

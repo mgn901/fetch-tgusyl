@@ -89,6 +89,7 @@ export const tabKamokuSampleHTML = `<style type="text/css">
 export const subjectCompactListSample: ISubjectCompact[] = [
   {
     id: 'example0',
+    type: 'compact',
     code: '70000000',
     name: 'example科目名0',
     teachers: ['example教員0', 'example教員1'],
@@ -101,6 +102,7 @@ export const subjectCompactListSample: ISubjectCompact[] = [
   },
   {
     id: 'example1',
+    type: 'compact',
     code: '70000001',
     name: 'example科目名1',
     teachers: ['example教員0', 'example教員1'],
@@ -113,6 +115,7 @@ export const subjectCompactListSample: ISubjectCompact[] = [
   },
   {
     id: '7000000201',
+    type: 'compact',
     code: '70000002',
     name: 'example科目名2',
     teachers: ['example教員0', 'example教員1'],

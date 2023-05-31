@@ -27,6 +27,7 @@ const convertReferenceDirectToSubjectDetail = (
 
   const subject: ISubjectDetail = {
     id,
+    type: 'detail',
     code: trimmedCells[1],
     name: trimmedCells[3],
     teachers: trimmedCells[5].split(','),
