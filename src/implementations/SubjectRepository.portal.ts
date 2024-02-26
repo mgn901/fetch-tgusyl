@@ -21,6 +21,11 @@ export default class SubjectRepository extends ISubjectRepository {
     this.subjectMap = new Map<string, ISubjectCompact | ISubjectDetail>();
   }
 
+  public addSection(...sections: ISection[]): void {
+    const newSections = sections.map((section) => ({ ...section, isFetched: false }));
+    this.sections.push(...newSections);
+  }
+
   public retrieve = async (query: TSubjectRepositoryQuery): Promise<void> => {
     if (query.type === 'compact') {
       const { sections } = query;

@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "fetch-tgusyl",
+  "version": "0.0.0",
+  "action": {
+    "broser_style": true,
+    "default_title": "fetch-tgusyl"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "offscreen",
+    "tabs"
+  ],
+  "host_permissions": [
+    "*://gportal.u-gakugei.ac.jp/syllabus/*",
+    "*://portal.u-gakugei.ac.jp/syllabus/*",
+    "*://tgusyl.u-gakugei.ac.jp/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self';object-src 'self';connect-src https://gportal.u-gakugei.ac.jp https://portal.u-gakugei.ac.jp https://tgusyl.u-gakugei.ac.jp"
+  }
+}

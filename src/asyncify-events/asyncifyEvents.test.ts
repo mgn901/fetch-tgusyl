@@ -12,17 +12,13 @@ describe('asyncifyEvents', () => {
   const clientMessagePort = messageChannel.port1;
   const serverMessagePort = messageChannel.port2;
   const replyListenerAdder:ICTO['messageListenerAdder'] = (onReply) => {
-    clientMessagePort.on('message', (message) => {
-      onReply(message);
-    });
+    clientMessagePort.on('message', onReply);
   };
   const sendRequestFunction: ICTO['sendMessageFunction'] = (message) => {
     clientMessagePort.postMessage(message);
   };
   const requestListenerAdder: ISTO['messageListenerAdder'] = (onRequest) => {
-    serverMessagePort.on('message', (message) => {
-      onRequest(message);
-    });
+    serverMessagePort.on('message', onRequest);
   };
   const sendReplyFunction: ISTO['sendMessageFunction'] = (message) => {
     serverMessagePort.postMessage(message);

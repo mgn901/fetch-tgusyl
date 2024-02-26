@@ -20,5 +20,6 @@ module.exports = {
       namedComponents: 'arrow-function',
     }],
     'jsx-quotes': ['error', 'prefer-single'],
+    'jsx-a11y/label-has-associated-control': ['error', { assert: 'nesting' }],
   },
 };

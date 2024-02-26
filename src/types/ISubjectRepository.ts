@@ -16,6 +16,7 @@ export type TSubjectRepositoryQuery = {
 };
 
 export abstract class ISubjectRepository extends EventTarget {
+  public abstract addSection(...sections: ISection[]): void;
   public abstract retrieve(query: TSubjectRepositoryQuery): Promise<void>;
   public abstract findRetrieved(): Promise<(ISubjectCompact | ISubjectDetail)[]>;
   public abstract findById(id: string): Promise<(ISubjectCompact | ISubjectDetail | undefined)>;
