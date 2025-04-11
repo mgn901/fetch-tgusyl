@@ -1,6 +1,7 @@
+import type { TgusylReferenceDirectResult } from '../tgusyl-client.ts';
 import type { ISubjectDetail } from '../types/ISubjectDetail';
 
-export const tgusylReferenceDirectSampleHTML = `<html lang="ja-JP">
+export const tgusylReferenceDirectSampleHtml = `<html lang="ja-JP">
 
 <head>
   <title>
@@ -309,27 +310,21 @@ export const tgusylReferenceDirectSampleHTML = `<html lang="ja-JP">
 </html>
 `;
 
-export const subjectDetailSample: ISubjectDetail = {
-  subjectId: 'example',
-  kamokuCode: '70000000',
-  kamokuName: 'example科目名',
+export const tgusylReferenceDirectResultSample: TgusylReferenceDirectResult = {
+  id: 'example',
+  subjectCode: '70000000',
+  name: 'example科目名',
   teachers: ['example教員0', 'example教員1'],
-  grades: [1],
-  classes: ['01'],
+  grade: '1年',
+  class: '01',
   places: ['S101'],
-  period: ['春学期'],
-  dayOfWeek: ['月1'],
-  categories: ['example課程 example区分0', 'example課程 example区分1'],
+  period: '春学期',
+  classHours: ['月1'],
+  courses: ['example課程 example区分0', 'example課程 example区分1'],
   updatedAt: 1680307200,
   units: 2,
-  properties: [
-    { key: 'メモ', type: 'plain', value: 'example備考' },
-    { key: 'ナンバリング', type: 'plain', value: '133E54' },
-    { key: 'テキスト', type: 'plain', value: 'exampleテキスト\nexampleテキスト' },
-    {
-      key: '出典',
-      type: 'plain',
-      value: '[シラバス参照 - 東京学芸大学 授業ガイド https://example.com/]',
-    },
-  ],
+  textbooks: 'exampleテキスト\nexampleテキスト',
+  references: 'example参考文献',
+  evaluationMethod: 'example成績評価方法\nexample成績評価方法',
+  classification: '133E54',
 };
