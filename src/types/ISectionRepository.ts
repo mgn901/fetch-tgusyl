@@ -1,4 +1,4 @@
-import { ISection } from './ISection';
+import type { ISection } from './ISection';
 
 export interface ISectionRepositoryOptions {
   indexHTML: string;

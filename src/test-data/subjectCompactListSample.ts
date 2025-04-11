@@ -1,4 +1,4 @@
-import { ISubjectCompact } from '../types/ISubjectCompact';
+import type { ISubjectCompact } from '../types/ISubjectCompact';
 
 export const tabKamokuSampleHTML = `<style type="text/css">
 </style>

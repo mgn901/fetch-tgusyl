@@ -1,5 +1,5 @@
-import { ISection } from '../types/ISection';
-import { ISectionRepository, ISectionRepositoryOptions } from '../types/ISectionRepository';
+import type { ISection } from '../types/ISection';
+import { ISectionRepository, type ISectionRepositoryOptions } from '../types/ISectionRepository';
 import convertHtmlToDocument from '../utils/convertHtmlToDocument';
 
 export default class SectionRepository extends ISectionRepository {
@@ -15,7 +15,7 @@ export default class SectionRepository extends ISectionRepository {
     const sectionList: ISection[] = [];
 
     anchors.forEach((anchor) => {
-      if (!(anchor instanceof HTMLAnchorElement) || !(anchor.href.startsWith('tab_kamoku.php'))) {
+      if (!(anchor instanceof HTMLAnchorElement) || !anchor.href.startsWith('tab_kamoku.php')) {
         return;
       }
       sectionList.push({
