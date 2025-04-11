@@ -1,4 +1,4 @@
-import { ISubjectDetail } from '../types/ISubjectDetail';
+import type { ISubjectDetail } from '../types/ISubjectDetail';
 
 export const tgusylReferenceDirectSampleHTML = `<html lang="ja-JP">
 
@@ -310,15 +310,15 @@ export const tgusylReferenceDirectSampleHTML = `<html lang="ja-JP">
 `;
 
 export const subjectDetailSample: ISubjectDetail = {
-  id: 'example',
-  code: '70000000',
-  name: 'example科目名',
+  subjectId: 'example',
+  kamokuCode: '70000000',
+  kamokuName: 'example科目名',
   teachers: ['example教員0', 'example教員1'],
   grades: [1],
   classes: ['01'],
   places: ['S101'],
-  semesters: ['春学期'],
-  weeks: ['月1'],
+  period: ['春学期'],
+  dayOfWeek: ['月1'],
   categories: ['example課程 example区分0', 'example課程 example区分1'],
   updatedAt: 1680307200,
   units: 2,
@@ -326,6 +326,10 @@ export const subjectDetailSample: ISubjectDetail = {
     { key: 'メモ', type: 'plain', value: 'example備考' },
     { key: 'ナンバリング', type: 'plain', value: '133E54' },
     { key: 'テキスト', type: 'plain', value: 'exampleテキスト\nexampleテキスト' },
-    { key: '出典', type: 'plain', value: '[シラバス参照 - 東京学芸大学 授業ガイド https://example.com/]' },
+    {
+      key: '出典',
+      type: 'plain',
+      value: '[シラバス参照 - 東京学芸大学 授業ガイド https://example.com/]',
+    },
   ],
 };

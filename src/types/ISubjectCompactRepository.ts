@@ -1,4 +1,4 @@
-import { ISubjectCompact } from './ISubjectCompact';
+import type { ISubjectCompact } from './ISubjectCompact';
 
 export interface ISubjectCompactRepositoryOptions {
   tabHtmlList: string[];

@@ -1,5 +1,8 @@
 import { describe, expect, test } from '@jest/globals';
-import { subjectCompactListSample, tabKamokuSampleHTML } from '../test-data/subjectCompactListSample';
+import {
+  subjectCompactListSample,
+  tabKamokuSampleHTML,
+} from '../test-data/subjectCompactListSample';
 import convertTabKamokuToSubjectCompactList from './convertTabKamokuToSubjectCompactList.portal';
 
 describe('convertTabKamokuToSubjectCompactList.portal', () => {

@@ -1,4 +1,4 @@
-import { IProperty } from './IProperty';
+import type { IProperty } from './IProperty';
 
 export interface ISubjectDetail {
   readonly id: string;

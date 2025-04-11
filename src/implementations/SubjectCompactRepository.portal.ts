@@ -1,5 +1,8 @@
-import { ISubjectCompact } from '../types/ISubjectCompact';
-import { ISubjectCompactRepository, ISubjectCompactRepositoryOptions } from '../types/ISubjectCompactRepository';
+import type { ISubjectCompact } from '../types/ISubjectCompact';
+import {
+  ISubjectCompactRepository,
+  type ISubjectCompactRepositoryOptions,
+} from '../types/ISubjectCompactRepository';
 import convertTabKamokuToSubjectCompactList from '../utils/convertTabKamokuToSubjectCompactList.portal';
 
 export default class SubjectCompactRepository extends ISubjectCompactRepository {
