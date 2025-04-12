@@ -2,8 +2,8 @@ import type { PreApplied } from '@mgn901/mgn901-utils-ts/pre-apply';
 import { Exception, throwIfUndefined } from './exception.ts';
 import type { FetchFunction } from './fetch.ts';
 import { isNonEmptyString } from './text-format-util.ts';
+import { toAsciiString } from './text-format-util.ts';
 import convertHtmlToDocument from './utils/convertHtmlToDocument.ts';
-import toAsciiString from './utils/toAsciiString.ts';
 
 const yobiTypeMap = {
   all: '',

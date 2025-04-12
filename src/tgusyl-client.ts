@@ -1,9 +1,9 @@
 import type { PreApplied } from '@mgn901/mgn901-utils-ts/pre-apply';
 import { Exception } from './exception.ts';
 import type { FetchFunction } from './fetch.ts';
+import { isNonEmptyString } from './text-format-util.ts';
+import { toAsciiString } from './text-format-util.ts';
 import convertHtmlToDocument from './utils/convertHtmlToDocument.ts';
-import getTrimmedText from './utils/getTrimmedText.ts';
-import toAsciiString from './utils/toAsciiString.ts';
 
 export const referenceDirect = async (params: {
   readonly subjectId: string;
@@ -57,7 +57,7 @@ export const toTgusylReferenceDirectResult = (params: {
       'html body table tbody tr td table.txt12 tbody tr td',
     ),
   );
-  const trimmedCells = cells.map((cell) => toAsciiString(getTrimmedText(cell) ?? ''));
+  const trimmedCells = cells.map((cell) => toAsciiString(cell.textContent?.trim() ?? ''));
   if (cells.length < 40) {
     throw Exception.create({ exceptionName: 'tgusylClient.parseFailed' });
   }
@@ -66,26 +66,26 @@ export const toTgusylReferenceDirectResult = (params: {
     id: params.id,
     subjectCode: trimmedCells[1],
     name: trimmedCells[3],
-    teachers: trimmedCells[5].split(','),
+    teachers: trimmedCells[5].split(',').filter(isNonEmptyString),
     grade: trimmedCells[7],
     class: trimmedCells[9],
-    places: trimmedCells[11].split(','),
+    places: trimmedCells[11].split(',').filter(isNonEmptyString),
     period: trimmedCells[15],
-    classHours: trimmedCells[17]?.split(','),
+    classHours: trimmedCells[17].split(',').filter(isNonEmptyString),
     units: Number(trimmedCells[23]),
-    courses: trimmedCells[25]?.split('、'),
+    courses: trimmedCells[25].split('、').filter(isNonEmptyString),
     classification: trimmedCells[29],
     textbooks: Array.from(cells[35].childNodes)
       .filter((node) => node instanceof Text)
-      .map((node) => getTrimmedText(node) ?? '')
+      .map((node) => node.textContent?.trim() ?? '')
       .join('\n'),
     references: Array.from(cells[37].childNodes)
       .filter((node) => node instanceof Text)
-      .map((node) => getTrimmedText(node) ?? '')
+      .map((node) => node.textContent?.trim() ?? '')
       .join('\n'),
     evaluationMethod: Array.from(cells[39].childNodes)
       .filter((node) => node instanceof Text)
-      .map((node) => getTrimmedText(node) ?? '')
+      .map((node) => node.textContent?.trim() ?? '')
       .join('\n'),
     updatedAt: params.updatedAt.getTime(),
   };
