@@ -1,5 +1,4 @@
 import type { TgusylReferenceDirectResult } from '../tgusyl-client.ts';
-import type { ISubjectDetail } from '../types/ISubjectDetail';
 
 export const tgusylReferenceDirectSampleHtml = `<html lang="ja-JP">
 
