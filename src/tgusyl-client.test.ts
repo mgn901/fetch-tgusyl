@@ -6,15 +6,17 @@ import {
 import { toTgusylReferenceDirectResult } from './tgusyl-client.ts';
 
 describe('tgusyl-client', () => {
-  test('toTgusylSubjectDetailResult', () => {
-    const date = new Date();
-    date.setTime(1680307200);
-    const subject = toTgusylReferenceDirectResult({
-      id: 'example',
-      domParser: new DOMParser(),
-      updatedAt: date,
-      html: tgusylReferenceDirectSampleHtml,
+  describe('toTgusylReferenceDirectResult', () => {
+    test('can parse valid html string', () => {
+      const date = new Date();
+      date.setTime(1680307200);
+      const subject = toTgusylReferenceDirectResult({
+        id: 'example',
+        domParser: new DOMParser(),
+        updatedAt: date,
+        html: tgusylReferenceDirectSampleHtml,
+      });
+      expect(subject).toEqual(tgusylReferenceDirectResultSample);
     });
-    expect(subject).toEqual(tgusylReferenceDirectResultSample);
   });
 });

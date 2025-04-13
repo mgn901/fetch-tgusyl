@@ -9,7 +9,7 @@ export const referenceDirect = async (params: {
   readonly subjectId: string;
   readonly updatedAt: Date;
   readonly fetch: FetchFunction;
-  readonly toSubjectDetail: PreApplied<
+  readonly toTgusylReferenceDirectResult: PreApplied<
     typeof toTgusylReferenceDirectResult,
     { readonly domParser: DOMParser }
   >;
@@ -19,7 +19,7 @@ export const referenceDirect = async (params: {
   url.searchParams.set('subjectID', params.subjectId);
   url.searchParams.set('formatCD', '1');
 
-  return params.toSubjectDetail({
+  return params.toTgusylReferenceDirectResult({
     html: await params.fetch({ url }),
     id: params.subjectId,
     updatedAt: params.updatedAt,
