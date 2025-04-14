@@ -1,7 +1,7 @@
 type ExceptionName =
+  | 'fetch.failed'
   | 'gportalClient.parseFailed'
   | 'gportalClient.pageNumberExceeded'
-  | 'tgusylClient.subjectNotFound'
   | 'tgusylClient.parseFailed';
 
 export class Exception<TExceptionName extends ExceptionName> extends Error {
