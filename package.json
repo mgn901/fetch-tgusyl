@@ -22,6 +22,7 @@
     "@types/esbuild-copy-static-files": "^0.1.4",
     "@types/node": "^20.17.30",
     "cross-env": "^7.0.3",
+    "drizzle-kit": "^0.30.6",
     "esbuild": "^0.17.19",
     "esbuild-copy-static-files": "^0.1.0",
     "husky": "^8.0.3",
@@ -32,6 +33,9 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@mgn901/mgn901-utils-ts": "0.7.0-alpha.3"
+    "@libsql/client": "^0.15.3",
+    "@mgn901/mgn901-utils-ts": "0.7.0-alpha.5",
+    "dotenv": "^16.5.0",
+    "drizzle-orm": "^0.41.0"
   }
 }
