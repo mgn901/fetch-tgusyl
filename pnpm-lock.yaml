@@ -12,8 +12,8 @@ importers:
         specifier: ^0.15.3
         version: 0.15.3
       '@mgn901/mgn901-utils-ts':
-        specifier: 0.7.0-alpha.5
-        version: 0.7.0-alpha.5
+        specifier: 0.7.0-alpha.6
+        version: 0.7.0-alpha.6
       dotenv:
         specifier: ^16.5.0
         version: 16.5.0
@@ -1000,8 +1000,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@mgn901/mgn901-utils-ts@0.7.0-alpha.5':
-    resolution: {integrity: sha512-HKZZYZJdlA1J37hPA3jT2TjWPNWrzSgoGcnVkDdI1P/IOAGCUXm3AZkIlCvVOraEI38PewjZTeDLgXxZ/OkE7w==}
+  '@mgn901/mgn901-utils-ts@0.7.0-alpha.6':
+    resolution: {integrity: sha512-6BCXf6W/yOQmGOyz43/fMWIOo16aIf8sDTEGaDpzU7K8ObXq9IyfpznO7KVdY5ixWiIClmD1e8XRh8GEUdoRiA==}
 
   '@neon-rs/load@0.0.4':
     resolution: {integrity: sha512-kTPhdZyTQxB+2wpiRcFWrDcejc4JI6tkPuS7UZCG4l6Zvc5kU/gGQ/ozvHTh1XR5tS+UlfAfGuPajjzQjCiHCw==}
@@ -3317,7 +3317,7 @@ snapshots:
   '@libsql/win32-x64-msvc@0.5.5':
     optional: true
 
-  '@mgn901/mgn901-utils-ts@0.7.0-alpha.5': {}
+  '@mgn901/mgn901-utils-ts@0.7.0-alpha.6': {}
 
   '@neon-rs/load@0.0.4': {}
 
