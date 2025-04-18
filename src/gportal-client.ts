@@ -29,6 +29,7 @@ const jigenCodeMap = {
 } as const;
 
 const semesterMap = {
+  all: '',
   semester1: '1',
   semester2: '2',
   throughSchoolYear: '3',
@@ -36,31 +37,36 @@ const semesterMap = {
 } as const;
 
 const subsemesterMap = {
+  all: '',
   term1: 'A',
   term2: 'B',
   term3: 'C',
   term4: 'D',
   semester1: '1',
   semester2: '2',
-  all: '',
 } as const;
 
-export const search = async (params: {
-  readonly page: number;
-  readonly freeWord: string;
-  readonly nendo: number;
-  readonly yobiType: keyof typeof yobiTypeMap;
-  readonly jigenCd: keyof typeof jigenCodeMap;
-  readonly semester: keyof typeof semesterMap;
-  readonly subSemester: keyof typeof subsemesterMap;
+export type GportalClientDependencies = {
   readonly fetch: FetchFunction;
   readonly toGportalSearchResult: PreApplied<
     typeof toGportalSearchResult,
     { readonly domParser: DOMParser }
   >;
-}): Promise<GportalSearchResult> => {
+};
+
+export const search = async (
+  params: {
+    readonly page: number;
+    readonly freeWord: string;
+    readonly nendo: number;
+    readonly yobiType: keyof typeof yobiTypeMap;
+    readonly jigenCd: keyof typeof jigenCodeMap;
+    readonly semester: keyof typeof semesterMap;
+    readonly subSemester: keyof typeof subsemesterMap;
+  } & GportalClientDependencies,
+): Promise<GportalSearchResult> => {
   const url = new URL('https://gportal.u-gakugei.ac.jp/syllabus/search');
-  url.searchParams.set('page', params.page.toString(10));
+  url.searchParams.set('page', (params.page + 1).toString(10));
   url.searchParams.set('initialFlag', '1');
   url.searchParams.set('freeWord', params.freeWord);
   url.searchParams.set('nendo', params.nendo.toString(10));

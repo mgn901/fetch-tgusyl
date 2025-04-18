@@ -5,15 +5,20 @@ import { isNonEmptyString } from './text-format-util.ts';
 import { toAsciiString } from './text-format-util.ts';
 import convertHtmlToDocument from './utils/convertHtmlToDocument.ts';
 
-export const referenceDirect = async (params: {
-  readonly subjectId: string;
-  readonly updatedAt: Date;
+export type TgusylClientDependencies = {
   readonly fetch: FetchFunction;
   readonly toTgusylReferenceDirectResult: PreApplied<
     typeof toTgusylReferenceDirectResult,
     { readonly domParser: DOMParser }
   >;
-}): Promise<TgusylReferenceDirectResult> => {
+};
+
+export const referenceDirect = async (
+  params: {
+    readonly subjectId: string;
+    readonly updatedAt: Date;
+  } & TgusylClientDependencies,
+): Promise<TgusylReferenceDirectResult> => {
   const url = new URL('https://tgusyl.u-gakugei.ac.jp/ext_syllabus/referenceDirect.do');
   url.searchParams.set('nologin', 'on');
   url.searchParams.set('subjectID', params.subjectId);
