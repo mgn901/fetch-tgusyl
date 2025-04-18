@@ -11,9 +11,10 @@ export type FetchAndCacheDependencies = {
 
 export const fetchAndCache = async (
   params: { readonly url: URL } & FetchAndCacheDependencies,
-): Promise<void> => {
+): Promise<string> => {
   const response = await params.fetch({ url: params.url });
   await params.cache.setByUrl({ url: params.url, response });
+  return response;
 };
 
 export type FetchAndCache = (params: { readonly url: URL }) => Promise<void>;
